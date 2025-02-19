@@ -142,7 +142,7 @@ def run_stage(stage, fcl, input_file, nevents, event, outname, artroot_out=False
   if input_file is not None: cmd.append(input_file)
 
   cmd += ['-n', str(nevents),]
-  cmd += ['--nskip', str(event),]
+  #cmd += ['--nskip', str(event),]
 
   if artroot_out:
     cmd += ['-o', outname]

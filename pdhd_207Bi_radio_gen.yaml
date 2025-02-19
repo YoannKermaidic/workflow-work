@@ -1,6 +1,6 @@
 time_last: True
 pass_name_through_stages: True
-art_out_base: prod_radio_207Bi_protodunehd
+art_out_base: prod_radio_207Bi_noflatrec_protodunehd
 timestamp_outname: True
 justin_stage_outname: True
 justin_jobid_outname: True
@@ -22,7 +22,7 @@ job_stages:
     input_from: "gen"
     event: 0
   g4_stage2:
-    fcl: standard_g4_protodunehd_stage2_flatrec_nopds.fcl
+    fcl: standard_g4_protodunehd_stage2_nopds.fcl
     nevents: -1
     art_out: True
     tfile_out: False
