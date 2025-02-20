@@ -1,0 +1,50 @@
+#!/bin/bash
+
+USERF=$USER
+FNALURL='https://fndcadoor.fnal.gov:2880/dune/scratch/users'
+
+util_tar=$(justin-cvmfs-upload beam_job_utils.tar)
+dunesw_tar=$(justin-cvmfs-upload gen_fcl.tar)
+
+echo "UTIL_TAR: ${util_tar}"
+echo "DUNESW_TAR: ${dunesw_tar}"
+ls ${dunesw_tar}
+
+a=2
+while true; do
+  stat $util_tar > /dev/null 2>&1
+  if [ $? == 0 ]; then
+    echo "Found in RCDS"
+    break
+  fi
+
+  echo "File not found in RCDS"
+  echo "sleeping $a"
+  sleep $a
+  a=$((2*a))
+done
+
+
+justin-test-jobscript \
+	--jobscript feb2025_generic_pdvd_mc_muongen.jobscript \
+	--monte-carlo 1 --env pipyaml=1  \
+	--env UTIL_TAR=$util_tar \
+	--env DUNESW_TAR=$dunesw_tar \
+	--env YAMLFILE=pdvd_muon_gen.yaml \
+	--env MCJob=1 \
+	--env "NEVENTS=1" 
+
+exit
+
+
+justin simple-workflow \
+	--jobscript feb2025_generic_pdvd_mc_muongen.jobscript \
+	--env "NEVENTS=1" \
+	--env UTIL_TAR=$util_tar \
+	--env DUNESW_TAR=$dunesw_tar \
+	--monte-carlo 1   \
+	--output-pattern "prod_muon_protodunevd_*.*:${FNALURL}/${USERF}/pdvd_muon" --max-distance 30 \
+	--rss-mib 6500 \
+	--env pipyaml=1 --env MCJob=1 \
+	--env YAMLFILE=pdvd_muon_gen.yaml
+
