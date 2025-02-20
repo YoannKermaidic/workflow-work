@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "core.group": "dune",
+    "core.run_type": "vd-protodune",
+    "dune.campaign": "PDVDProd2025a",
+    "core.data_tier": "g4",
+    "core.application.version": "v10_01_01d00",
+    "core.application.family": "dunesw",
+    "core.application.name": "reco",
+    "core.application": "dunetpc.reco",
+    "dune.config_file": "FIXME",
+    "dune_mc.gen_fcl_filename": "gen_protodunevd_cosmics.fcl",
+    "core.data_stream": "out1",
+    "dune.requestid": "RITM2347989",
+    "core.file_type": "mc",
+    "dune_mc.detector_type": "vd-protodune",
+    "core.file_format": "artroot",
+    "dune_mc.with_cosmics": 1,
+    "dune_mc.generators": "cosmics",
+    "dune_mc.liquid_flow": "no",
+    "dune_mc.space_charge": "no",
+    "dune_mc.electron_lifetime": "35ms"
+  }
+}

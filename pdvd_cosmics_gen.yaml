@@ -1,0 +1,45 @@
+time_last: True
+pass_name_through_stages: True
+art_out_base: prod_cosmics_protodunevd
+timestamp_outname: True
+justin_stage_outname: True
+justin_jobid_outname: True
+
+
+job_stages:
+  gen:
+    fcl: gen_protodunevd_cosmics.fcl
+    nevents: 1
+    art_out: True
+    tfile_out: False
+    input_from: "job"
+    event: 0
+  g4_stage1:
+    fcl: protodunevd_refactored_g4_stage1.fcl
+    nevents: -1
+    art_out: True
+    tfile_out: False
+    input_from: "gen"
+    event: 0
+  g4_stage2:
+    fcl: protodunevd_refactored_g4_stage2_pureAr.fcl
+    nevents: -1
+    art_out: True
+    tfile_out: False
+    input_from: "g4_stage1"
+    event: 0
+  detsim:
+    fcl: protodunevd_refactored_detsim_pureAr.fcl
+    nevents: -1
+    art_out: True
+    tfile_out: False
+    input_from: "g4_stage2"
+    event: 0
+  reco:
+    fcl: protodunevd_reco.fcl
+    nevents: -1
+    art_out: True
+    tfile_out: False #TODO -- True
+    input_from: "detsim"
+    event: 0
+
