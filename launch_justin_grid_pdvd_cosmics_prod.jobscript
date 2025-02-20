@@ -1,0 +1,47 @@
+#!/bin/bash
+
+USERF=$USER
+FNALURL='https://fndcadoor.fnal.gov:2880/dune/scratch/users'
+
+util_tar=$(justin-cvmfs-upload beam_job_utils.tar)
+#dunesw_tar=$(justin-cvmfs-upload ../justin/pdhd_allradio_v10_01_01d00.tar)
+
+echo "UTIL_TAR: ${util_tar}"
+#echo "DUNESW_TAR: ${dunesw_tar}"
+
+a=2
+while true; do
+  stat $util_tar > /dev/null 2>&1
+  if [ $? == 0 ]; then
+    echo "Found in RCDS"
+    break
+  fi
+
+  echo "File not found in RCDS"
+  echo "sleeping $a"
+  sleep $a
+  a=$((2*a))
+done
+
+
+#justin-test-jobscript \
+#	--jobscript feb2025_generic_pdvd_mc_cosmicsgen.jobscript \
+#	--monte-carlo 1 --env pipyaml=1  \
+#	--env UTIL_TAR=$util_tar \
+#	--env YAMLFILE=pdvd_cosmics_gen.yaml \
+#	--env MCJob=1 \
+#	--env "NEVENTS=1" 
+#
+#exit
+
+
+justin simple-workflow \
+	--jobscript feb2025_generic_pdvd_mc_cosmicsgen.jobscript \
+	--env "NEVENTS=1" \
+	--env UTIL_TAR=$util_tar \
+	--monte-carlo 1   \
+	--output-pattern "prod_cosmics_protodunevd_*.*:${FNALURL}/${USERF}/pdvd_cosmics" --max-distance 30 \
+	--rss-mib 6500 \
+	--env pipyaml=1 --env MCJob=1 \
+	--env YAMLFILE=pdvd_cosmics_gen.yaml
+
